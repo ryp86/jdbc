@@ -40,6 +40,13 @@ public interface IDeptDAO {
     List queryById(int deptno);
 
     /**
+     * 根据主键查询
+     * @param loc 部门地址
+     * @return 受影响的行数
+     */
+    List queryByLoc(String loc);
+
+    /**
      * 查询所有
      * @return
      */

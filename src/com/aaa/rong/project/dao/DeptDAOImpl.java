@@ -68,6 +68,20 @@ public class DeptDAOImpl implements IDeptDAO {
     }
 
     /**
+     * 根据主键查询
+     *
+     * @param loc 部门地址
+     * @return 受影响的行数
+     */
+    @Override
+    public List queryByLoc(String loc) {
+        String sql = "select deptno,dname,loc from dept where loc = ?";
+        Object[] arr = {loc};
+        List list = BaseDBUtil.executeQuery(sql, arr);
+        return list;
+    }
+
+    /**
      * 查询所有
      *
      * @return
