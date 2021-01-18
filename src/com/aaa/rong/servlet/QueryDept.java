@@ -30,17 +30,13 @@ public class QueryDept extends HttpServlet {
         String loc = req.getParameter("loc");
 
         IDeptDAO deptDAO = new DeptDAOImpl();
-        List list = deptDAO.queryByLoc(loc);
+        List<Map> list = deptDAO.queryByLoc(loc);
 
-        resp.setContentType("text/html");
-        PrintWriter out = resp.getWriter();
-        out.println("----【部门信息】----\n");
-        out.println("部门编号\t\t部门名称\t\t所在地");
-        for (Object o : list) {
-            Map map = (HashMap) o;
-            out.println(map.get("deptno") + "\t\t\t" + map.get("dname") + "\t\t" + map.get("loc"));
-        }
-        out.close();
+        req.setAttribute("list",list);
+        //转发
+        req.getRequestDispatcher("query.jsp").forward(req,resp);
+        //重定向
+        resp.sendRedirect("query.jsp");
     }
 
     @Override

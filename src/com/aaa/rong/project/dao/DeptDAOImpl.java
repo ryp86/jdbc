@@ -4,6 +4,7 @@ import com.aaa.rong.project.pojo.Dept;
 import com.aaa.rong.project.util.BaseDBUtil;
 import com.aaa.rong.util.BaseDB;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,7 @@ public class DeptDAOImpl implements IDeptDAO {
     }
 
     /**
-     * 根据主键查询
+     * 根据地址查询
      *
      * @param loc 部门地址
      * @return 受影响的行数
@@ -78,6 +79,35 @@ public class DeptDAOImpl implements IDeptDAO {
         String sql = "select deptno,dname,loc from dept where loc = ?";
         Object[] arr = {loc};
         List list = BaseDBUtil.executeQuery(sql, arr);
+        return list;
+    }
+
+    /**
+     * 根据多字段查找
+     *
+     * @param dept
+     * @return
+     */
+    @Override
+    public List queryByDept(Dept dept) {
+
+        String sql = "select deptno,dname,loc from dept where 1=1";
+        List arrList = new ArrayList();
+        if (dept.getDeptno() != -1) {
+            sql+= " and deptno=?";
+            arrList.add(dept.getDeptno());
+        }
+        if (null != dept.getDname()) {
+            sql += " and dname=?";
+            arrList.add(dept.getDname());
+        }
+        if (null != dept.getLoc()) {
+            sql += " and loc=?";
+            arrList.add(dept.getLoc());
+        }
+        Object[] arr = arrList.toArray();
+        List<Map> list = BaseDBUtil.executeQuery(sql, arr);
+
         return list;
     }
 
