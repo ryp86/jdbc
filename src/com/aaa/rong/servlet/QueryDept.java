@@ -3,11 +3,13 @@ package com.aaa.rong.servlet;
 import com.aaa.rong.project.dao.DeptDAOImpl;
 import com.aaa.rong.project.dao.IDeptDAO;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -32,10 +34,16 @@ public class QueryDept extends HttpServlet {
         IDeptDAO deptDAO = new DeptDAOImpl();
         List<Map> list = deptDAO.queryByLoc(loc);
 
-        req.setAttribute("list",list);
         //转发
-        req.getRequestDispatcher("query.jsp").forward(req,resp);
+//        req.setAttribute("list",list);
+//        req.getRequestDispatcher("query.jsp").forward(req,resp);
         //重定向
+        //得到session对象
+        HttpSession session = req.getSession();
+        //得到application对象
+        ServletContext application = session.getServletContext();
+
+        session.setAttribute("list",list);
         resp.sendRedirect("query.jsp");
     }
 
